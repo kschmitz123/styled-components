@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'styled-components/macro';
+import styled, { keyframes, ThemeProvider } from 'styled-components/macro';
+import { useState } from 'react';
 import GlobalStyle from './GlobalStyle';
 import logo from './logo.svg';
 
@@ -15,16 +16,19 @@ const Wrapper = styled.div`
   text-align: center;
 
   header {
-    background-color: #282c34;
+    background-color: ${(props) => props.theme.backgroundColor};
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
-    color: white;
+    color: ${(props) => props.theme.textColor};
   }
-
+  p {
+    border: ${(props) => props.theme.border};
+    padding: 5px;
+  }
   header img {
     height: 40vmin;
     pointer-events: none;
@@ -38,12 +42,31 @@ const Wrapper = styled.div`
 `;
 
 const Link = styled.a`
-  color: #61dafb;
+  color: ${(props) => props.theme.textColor};
+  margin-bottom: 20px;
 `;
 
+const Button = styled.button`
+  background: ${(props) => props.theme.backgroundColor};
+  border: ${(props) => props.theme.border};
+  cursor: pointer;
+`;
+
+const yellow = {
+  backgroundColor: '#EAD052',
+  textColor: '#B37300',
+  border: '2px solid #B37300',
+};
+
+const blue = {
+  backgroundColor: '#5266EA',
+  textColor: '#051266',
+  border: '2px solid #0920B3',
+};
 function App() {
+  const [theme, setTheme] = useState(blue);
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Wrapper>
         <header>
@@ -60,9 +83,15 @@ function App() {
           >
             Learn React
           </Link>
+          <Button
+            onClick={() => setTheme(theme === blue ? yellow : blue)}
+            type="button"
+          >
+            Change color
+          </Button>
         </header>
       </Wrapper>
-    </>
+    </ThemeProvider>
   );
 }
 
