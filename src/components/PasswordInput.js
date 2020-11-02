@@ -11,8 +11,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 
 const Input = styled.input`
-  background: red;
+  background: ${(props) =>
+    `hsl(${Math.min(props.value.length * 10, 100)} , 100%, 50%)`};
 `;
+
 const PasswordInput = ({ value, onChange }) => {
   const [password, setPassword] = useState(value);
   useEffect(() => {
